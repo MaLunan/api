@@ -6,6 +6,6 @@ let userSchema= mongoose.Schema({
     ps:{ type:String,required:true },
     token:{type:String,default:null}
 })
-let  userModel = mongoose.model('users',userSchema)
+let  userModel = mongoose.model('users',userSchema,'users')
 
 module.exports = userModel

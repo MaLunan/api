@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const Food = require('../control/foodController')
-
+const multer  = require('multer')
+const upload=multer({})
 //查询接口（分页查询  分类查询 关键字查询）
 router.get('/getFoods',(req,res)=>{
   let page=Number(req.query.page)||1
@@ -34,11 +35,20 @@ router.get('/getFoodsByKw',(req,res)=>{
     res.send({err:0,msg:'ok',list:data})
   })
 })
+//id查询
+router.get('/getByID',(req,res)=>{
+  let _id = req.query._id 
+  Food.getByID(_id)
+  .then((data)=>{
+    res.send({err:0,msg:'ok',list:data})
+  })
+})
 //删除接口
 router.get('/delFood',(req,res)=>{
-  let  {foodId}=req.query
+  let {foodId}=req.query
   Food.del(foodId)
   .then((data)=>{
+   
     res.send({err:0,msg:'del ok'})
   })
   .catch((err)=>{ 
@@ -56,9 +66,15 @@ router.post('/addFood',(req,res)=>{
 })
 //修改 
 router.get('/updateFood',(req,res)=>{
-  let {foodId,goods_name,goods_price,goods_number,goods_weight,goods_state,add_time,old_time,is_promote,goods_img} = req.query 
-  Food.update(foodId,goods_name,goods_price,goods_number,goods_weight,goods_state,add_time,old_time,is_promote,goods_img)
+  let {_id,goods_name,goods_price,goods_number,goods_weight,goods_state,add_time,old_time,is_promote,goods_img} = req.query 
+  Food.update(_id,goods_name,goods_price,goods_number,goods_weight,goods_state,add_time,old_time,is_promote,goods_img)
   .then((data)=>{res.send({err:0,msg:'修改ok'})})
   .catch((data)=>{res.send({err:-1,msg:'修改失败'})})
+})
+//上传图片
+router.post('/upfile',upload.single('hh'),(req,res)=>{
+  console.log(req.file)
+  res.send(req.file)
+  
 })
 module.exports = router

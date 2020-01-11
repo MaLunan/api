@@ -22,7 +22,7 @@ let codes={} //保存邮箱和验证码
  * @apiSuccess {String} msg  Lastname of the User.
  */
 
-
+//注册
 router.post('/reg',(req,res)=>{
    let {us,ps,code} = req.body
   // let {us,ps} = req.body
@@ -52,6 +52,7 @@ router.post('/reg',(req,res)=>{
  * @apiSuccess {String} err Firstname of the User.
  * @apiSuccess {String} msg  Lastname of the User.
  */
+//登陆
 router.post('/login',(req,res)=>{
   console.log(111)
   let {us,ps}=req.body
@@ -84,6 +85,7 @@ router.post('/login',(req,res)=>{
 3.将手机号邮箱 与验证码进行保存
 4.将验证码发送给用户
 */ 
+//邮箱
 router.post('/getCode',(req,res)=>{
   let {mail}= req.body
   let code =parseInt(Math.random()*9999)
@@ -98,5 +100,12 @@ router.post('/getCode',(req,res)=>{
    res.send(err)
   })
 })
+//查询
+router.get('/getus',(req,res)=>{
+User.find()
+.then((data)=>{
+  res.send(data)
+})
 
+})
 module.exports = router
